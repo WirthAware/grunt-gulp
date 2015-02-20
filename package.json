@@ -4,7 +4,7 @@
   "description": "Playground to demo Grunt vs Gulp",
   "main": "app.js",
   "scripts": {
-    "test": "test"
+    "test": "npm test"
   },
   "repository": {
     "type": "git",
@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/WirthAware/grunt-gulp/issues"
   },
-  "homepage": "https://github.com/WirthAware/grunt-gulp"
+  "homepage": "https://github.com/WirthAware/grunt-gulp",
+  "devDependencies": {
+    "gulp": "^3.8.11"
+  }
 }
