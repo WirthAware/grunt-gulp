@@ -19,7 +19,8 @@
             var $sidebarInner = element.find('.sidebar-inner');
             var $dropdownElement = element.find('.sidebar-dropdown a');
             element.addClass('sidebar');
-            $dropdownElement.click(dropdown);
+
+            $dropdownElement.click(dropdown);                
 
             function dropdown(e) {
                 var dropClass = 'dropy';
