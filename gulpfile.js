@@ -9,17 +9,17 @@ gulp.task('connect', function() {
 });
 
 gulp.task('html', function () {
-  gulp.src(['./src/*.html'])
+  gulp.src(['index.html', './src/app/**/*.html'])
     .pipe(connect.reload());
 });
 
 gulp.task('js', function () {
-  gulp.src(['./src/app/*.js'])
+  gulp.src(['./src/app/**/*.js'])
     .pipe(connect.reload());
 });
 
 gulp.task('watch', function () {
-  gulp.watch(['./src/*.html', './src/app/*.js'], ['html', 'js']);
+  gulp.watch(['index.html', './src/app/**/*.html', './src/app/**/*.js'], ['html', 'js']);
 });
 
 gulp.task('default', ['connect', 'watch']);

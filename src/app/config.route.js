@@ -29,14 +29,26 @@
                         content: '<i class="fa fa-dashboard"></i> Dashboard'
                     }
                 }
-            }, {
-                url: '/avengers',
+            },
+            {
+                url: '/gulp',
                 config: {
-                    title: 'Avengers',
-                    templateUrl: 'app/avengers/avengers.html',
+                    title: 'Gulp',
+                    templateUrl: 'src/app/gulp/gulp.html',
                     settings: {
                         nav: 2,
-                        content: '<i class="fa fa-lock"></i> Avengers'
+                        content: '<i class="fa fa-lock"></i> Gulp'
+                    }
+                }
+            },
+            {
+                url: '/grunt',
+                config: {
+                    title: 'Grunt',
+                    templateUrl: 'src/app/grunt/grunt.html',
+                    settings: {
+                        nav: 2,
+                        content: '<i class="fa fa-lock"></i> Grunt'
                     }
                 }
             }

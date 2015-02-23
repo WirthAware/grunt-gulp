@@ -3,7 +3,9 @@
 
     var app = angular.module('app', [
         // Angular modules
+        'ngAnimate',        // animations
         'ngRoute',          // routing
+        'ngSanitize',       // sanitizes html bindings (ex: sidebar.js)
     ]);
 
     // Handle routing errors and success events

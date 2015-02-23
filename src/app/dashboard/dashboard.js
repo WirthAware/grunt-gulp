@@ -4,5 +4,6 @@
     angular.module('app').controller(controllerId, [dashboard]);
 
     function dashboard() {
+        var vm = this;
     }
 })();
