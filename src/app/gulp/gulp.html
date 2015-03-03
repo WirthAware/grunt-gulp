@@ -1,3 +1,14 @@
 <section id="dashboard-view" class="mainbar" data-ng-controller="gulp as vm">
-    Gulp
-</section>
+Gulp
+
+    <div >
+        <carousel interval="myInterval">
+          <slide ng-repeat="slide in vm.slides" active="slide.active">
+            <div class="carousel-caption">
+              <h4>Slide {{$index}}</h4>
+              <p>{{slide.text}}</p>
+            </div>
+          </slide>
+        </carousel>
+      </div>
+</section>  

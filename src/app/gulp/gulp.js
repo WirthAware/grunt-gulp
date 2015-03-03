@@ -5,5 +5,10 @@
 
     function gulp() {
         var vm = this;
+        vm.slides =
+        [
+            { text: 'Eins' },
+            { text: 'Zwei' },
+        ];
     }
 })();

@@ -6,6 +6,7 @@
         'ngAnimate',        // animations
         'ngRoute',          // routing
         'ngSanitize',       // sanitizes html bindings (ex: sidebar.js)
+        'ui.bootstrap'
     ]);
 
     // Handle routing errors and success events
