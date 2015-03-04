@@ -5,10 +5,11 @@
 
     function gulp() {
         var vm = this;
+
         vm.slides =
         [
-            { text: 'Eins' },
-            { text: 'Zwei' },
+            { text: 'Eins', image: 'http://placekitten.com/' + 601 + '/300' },
+            { text: 'Zwei', image: 'http://placekitten.com/' + 602 + '/300' },
         ];
     }
 })();
