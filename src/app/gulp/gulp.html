@@ -1,19 +1,9 @@
 <section id="dashboard-view" class="mainbar" data-ng-controller="gulp as vm">
-Gulp
-
     <div >
         <carousel >
             <slide ng-repeat="slide in vm.slides" active="slide.active">
-                <div class"item">
-                    <h4>Slide {{$index}}</h4>
-                    <p>{{slide.text}}</p>
-                    {{slide.text}}
+                <div marked ng-include src="slide.markdown" style="margin:auto;">
                 </div>
-                <!--img ng-src="{{slide.image}}" style="margin:auto;">
-                    <div class="carousel-caption">
-                      <h4>Slide {{$index}}</h4>
-                      <p>{{slide.text}}</p>
-                  </div-->
             </slide>
         </carousel>
     </div>
