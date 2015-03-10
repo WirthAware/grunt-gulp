@@ -21,32 +21,18 @@
   },
   "homepage": "https://github.com/WirthAware/grunt-gulp",
   "devDependencies": {
+    "event-stream": "^3.3.0",
     "gulp": "^3.8.11",
+    "gulp-angular-filesort": "^1.1.1",
+    "gulp-angular-templatecache": "^1.5.0",
     "gulp-clean": "^0.3.1",
     "gulp-concat": "^2.5.2",
     "gulp-connect": "^2.2.0",
+    "gulp-inject": "^1.2.0",
     "gulp-jshint": "^1.9.2",
     "gulp-size": "^1.2.1",
     "gulp-uglify": "^1.1.0",
-    "jshint-stylish": "^1.0.1"
-  },
-  "paths": {
-    "source": {
-      "js": [
-        "src/**/*.js"
-      ],
-      "html": [
-        "src/**/*.html"  
-      ],
-      "css": [
-          "./css/customtheme.css",
-          "./css/styles.css"
-      ]
-    },
-    "dest": {
-        "base": "./dev/",
-        "js": "./dev/js/",
-        "css": "./dev/css/"
-    }
+    "jshint-stylish": "^1.0.1",
+    "main-bower-files": "^2.5.0"
   }
 }

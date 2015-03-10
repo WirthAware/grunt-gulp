@@ -1,0 +1,21 @@
+{
+    "paths": {
+      "source": {
+        "js": [
+          "src/**/*.js"
+        ],
+        "html": [
+          "src/**/*.html"
+        ],
+        "css": [
+            "./css/customtheme.css",
+            "./css/styles.css"
+        ]
+      },
+      "dest": {
+          "base": "./dev/",
+          "js": "./dev/js/",
+          "css": "./dev/css/"
+      }
+    }
+}

@@ -5,11 +5,19 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
 
-    <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
-
     <link href="css/styles.css" rel="stylesheet" />
     <link href="css/customtheme.css" rel="stylesheet" />
+
+    <!-- bower:css -->
+    <link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css">
+    <!-- endinject  -->
+
+    <!-- inject:css -->
+    <link rel="stylesheet" href="/css/customtheme.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <!-- endinject -->
+
 </head>
 <body>
     <div>
@@ -17,29 +25,31 @@
     </div>
 
     <!-- vendor scripts -->
-    <script src="bower_components/angular/angular.min.js"></script>
-    <script src="bower_components/angular-route/angular-route.min.js"></script>
-    <script src="bower_components/angular-animate/angular-animate.min.js"></script>
-    <script src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
-    <script src="bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
-    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+    <!-- bower:js -->
+    <script src="/bower_components/angular/angular.js"></script>
+    <script src="/bower_components/angular-route/angular-route.js"></script>
+    <script src="/bower_components/jquery/dist/jquery.js"></script>
+    <script src="/bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="/bower_components/angular-animate/angular-animate.js"></script>
+    <script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="/bower_components/marked/lib/marked.js"></script>
+    <script src="/bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="/bower_components/angular-marked/angular-marked.js"></script>
+    <!-- endinject  -->
 
-    <script src="bower_components/marked/marked.min.js"></script>
-    <script src="bower_components/angular-marked/angular-marked.min.js"></script>
+    <!-- inject:js -->
+    <script src="/src/app/app.js"></script>
+    <script src="/src/app/templates/sidebar.js"></script>
+    <script src="/src/app/templates/shell.js"></script>
+    <script src="/src/app/services/directives.js"></script>
+    <script src="/src/app/gulp/gulp.js"></script>
+    <script src="/src/app/grunt/grunt.js"></script>
+    <script src="/src/app/dashboard/dashboard.js"></script>
+    <script src="/src/app/config.route.js"></script>
+    <script src="/src/app/config.js"></script>
+    <!-- endinject -->
 
-    <!-- bootstrapping -->
-    <script src="src/app/app.js"></script>
-    <script src="src/app/config.js"></script>
-    <script src="src/app/config.route.js"></script>
+    <script src="dev/js/grunt-gulp.min.js"></script>
 
-    <!-- app -->
-    <script src="src/app/templates/shell.js"></script>
-    <script src="src/app/templates/sidebar.js"></script>
-    <script src="src/app/dashboard/dashboard.js"></script>
-    <script src="src/app/gulp/gulp.js"></script>
-    <script src="src/app/grunt/grunt.js"></script>
-
-    <!-- services -->
-    <script src="src/app/services/directives.js"></script>
 </body>
 </html>
