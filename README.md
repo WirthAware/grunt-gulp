@@ -19,11 +19,5 @@ Playground to demo Gulp vs Grunt
 * watch with livereload
 
 ### TODO
-+ html2js - templateChache
 + connect => dest (serve:dev; serve:release)
-
 + html-header
-
-+ html template inject index:dev 
-
-+ config.json

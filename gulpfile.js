@@ -25,6 +25,10 @@ gulp.task('clean-all', function(){
 // uglify
 // concat
 // copy
+var jsFiles = gulp.src(config.paths.source.js)
+        .pipe(angularFilesort())
+        .pipe(gulp.dest(config.paths.dest.js));
+
 gulp.task('bundlejs', ['jshint'], function () {
     var bundlefile = pkg.name + ".min.js";
     var opt = {newLine: ';'};
@@ -37,6 +41,9 @@ gulp.task('bundlejs', ['jshint'], function () {
         .pipe(gulp.dest(config.paths.dest.js))
         .pipe(size({showFiles: true}));
 });
+
+var cssFiles = gulp.src('./css/**/*.css')
+    .pipe(gulp.dest('./dev/css'));
 
 gulp.task('bundlecss', function () {
     return gulp.src(config.paths.source.css)
@@ -72,7 +79,7 @@ gulp.task('ng-templates', function () {
 
 
 // html inject
-gulp.task('index', function () {
+gulp.task('scripts', function () {
   var target = gulp.src('./src/index.html');
   // It's not necessary to read the files (will speed up things), we're only after their paths:
 
@@ -82,8 +89,11 @@ gulp.task('index', function () {
 
   return target
     .pipe(inject(bower, { name: 'bower' }))
-    .pipe(inject(sources))
-    .pipe(inject(css))
+
+    .pipe(inject(eventStream.merge(
+        jsFiles,
+        cssFiles
+    )))
     .pipe(gulp.dest('./'));
 
 });
