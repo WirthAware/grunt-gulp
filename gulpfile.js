@@ -16,7 +16,11 @@ var bowerFiles = require('main-bower-files');
 
 
 // clean
-gulp.task('clean-all', function(){
+gulp.task('clean-index', function () {
+        return gulp.src('index.html')
+        pipe(clean({force: true}));
+});
+gulp.task('clean-all', ['clean-index'], function(){
     return gulp.src([config.paths.dest.base])
         .pipe(clean({force: true}))
 });
@@ -27,13 +31,13 @@ gulp.task('clean-all', function(){
 // copy
 var jsFiles = gulp.src(config.paths.source.js)
         .pipe(angularFilesort())
-        .pipe(gulp.dest(config.paths.dest.js));
+        .pipe(gulp.dest(config.paths.dest.base));
 
 gulp.task('bundlejs', ['jshint'], function () {
     var bundlefile = pkg.name + ".min.js";
     var opt = {newLine: ';'};
     var jsStream = gulp.src(config.paths.source.js);
-    var templateStream = templates();
+    var templateStream = viewTemplates;
     return eventStream.merge(jsStream, templateStream)
         .pipe(size({showFiles: true}))
         .pipe(uglify())
@@ -42,8 +46,8 @@ gulp.task('bundlejs', ['jshint'], function () {
         .pipe(size({showFiles: true}));
 });
 
-var cssFiles = gulp.src('./css/**/*.css')
-    .pipe(gulp.dest('./dev/css'));
+var cssFiles = gulp.src(config.paths.source.css)
+    .pipe(gulp.dest(config.paths.dest.css));
 
 gulp.task('bundlecss', function () {
     return gulp.src(config.paths.source.css)
@@ -64,17 +68,17 @@ gulp.task('jshint', function () {
         .pipe(jshint.reporter(stylish));
 });
 
+
 // html 2 js
-function templates () {
-  // create an angular templates.js file from html files in lib
-  return gulp.src('src/**/*.html')
-    .pipe(templateCache('templates.js', {
-      module: 'app'
-  }));
-}
+var viewTemplates = gulp.src('src/**/*.html')
+        .pipe(templateCache('templates.js', {
+            module: 'app'
+        }))
+        .pipe(gulp.dest(config.paths.dest.base + '/app/templates/'));
+
 gulp.task('ng-templates', function () {
   // create an angular templates.js file from html files in lib
-  return templates().pipe(gulp.dest('src/templates'));
+  return viewTemplates;
 });
 
 
@@ -84,14 +88,16 @@ gulp.task('scripts', function () {
   // It's not necessary to read the files (will speed up things), we're only after their paths:
 
   var bower = gulp.src(bowerFiles(), {read:false});
-  var sources = gulp.src(['./src/**/*.js']).pipe(angularFilesort());
+  // var sources = gulp.src(['./src/**/*.js']).pipe(angularFilesort());
   var css = gulp.src(['./css/**/*.css'], { read: false });
+  var templates = viewTemplates;
+  var sources = eventStream.merge(jsFiles, templates).pipe(angularFilesort());
 
   return target
     .pipe(inject(bower, { name: 'bower' }))
 
     .pipe(inject(eventStream.merge(
-        jsFiles,
+        sources,
         cssFiles
     )))
     .pipe(gulp.dest('./'));

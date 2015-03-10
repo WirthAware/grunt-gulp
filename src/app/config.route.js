@@ -22,7 +22,7 @@
             {
                 url: '/',
                 config: {
-                    templateUrl: 'src/app/dashboard/dashboard.html',
+                    templateUrl: 'app/dashboard/dashboard.html',
                     title: 'dashboard',
                     settings: {
                         nav: 1,
@@ -34,7 +34,7 @@
                 url: '/gulp',
                 config: {
                     title: 'Gulp',
-                    templateUrl: 'src/app/gulp/gulp.html',
+                    templateUrl: 'app/gulp/gulp.html',
                     settings: {
                         nav: 2,
                         content: '<i class="fa fa-lock"></i> Gulp'
@@ -45,7 +45,7 @@
                 url: '/grunt',
                 config: {
                     title: 'Grunt',
-                    templateUrl: 'src/app/grunt/grunt.html',
+                    templateUrl: 'app/grunt/grunt.html',
                     settings: {
                         nav: 2,
                         content: '<i class="fa fa-lock"></i> Grunt'

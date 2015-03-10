@@ -8,14 +8,14 @@
           "src/**/*.html"
         ],
         "css": [
-            "./css/customtheme.css",
-            "./css/styles.css"
+            "./src/css/customtheme.css",
+            "./src/css/styles.css"
         ]
       },
       "dest": {
-          "base": "./dev/",
-          "js": "./dev/js/",
-          "css": "./dev/css/"
+          "base": "./build/",
+          "js": "./build/js/",
+          "css": "./build/css/"
       }
     }
 }
