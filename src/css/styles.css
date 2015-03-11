@@ -204,7 +204,7 @@ small {
 }
 
 .navbar .navbar-brand {
-    background: url(../img/gg.png) no-repeat left top !important;
+    background: url(../../img/gg.png) no-repeat left top !important;
     margin: 0 1em;
     height: 45px;
 }
