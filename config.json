@@ -1,21 +1,52 @@
 {
     "paths": {
-      "source": {
-        "js": [
-          "src/**/*.js"
-        ],
-        "html": [
-          "src/**/*.html"
-        ],
-        "css": [
-            "./src/css/customtheme.css",
-            "./src/css/styles.css"
-        ]
-      },
-      "dest": {
-          "base": "./build/",
-          "js": "./build/js/",
-          "css": "./build/css/"
-      }
+        "source": {
+            "js": [
+                "src/**/*.js"
+            ],
+            "html": [
+                "src/**/*.html"
+            ],
+            "css": [
+                "src/css/customtheme.css",
+                "src/css/styles.css"
+            ],
+            "md": [
+                "src/**/*.md"
+            ],
+            "vendor": {
+                "js": [
+                    "bower_components/jquery/dist/jquery.js",
+                    "bower_components/angular/angular.js",
+                    "bower_components/angular-animate/angular-animate.js",
+                    "bower_components/angular-bootstrap/ui-bootstrap.js",
+                    "bower_components/angular-bootstrap/ui-bootstrap-tpls.js",
+                    "bower_components/bootstrap/dist/js/bootstrap.js",
+                    "bower_components/angular-marked/angular-marked.js",
+                    "bower_components/angular-route/angular-route.js",
+                    "bower_components/angular-sanitize/angular-sanitize.js",
+                    "bower_components/marked/lib/marked.js"
+                ],
+                "css": [
+                    "bower_components/bootstrap/dist/css/bootstrap.css",
+                    "bower_components/bootstrap/dist/css/bootstrap-theme.css",
+                    "bower_components/font-awesome/css/font-awesome.css"
+                ],
+                "assets": [
+                    "bower_components/bootstrap/dist/fonts/**/*",
+                    "bower_components/font-awesome/fonts/**/*"
+                ]
+            },
+            "img": [
+                "img/**/*"
+            ],
+            "index": "src/index.html",
+            "index_grunt": "src/index_grunt.html"
+        },
+        "dest": {
+            "base": "build",
+            "js": "build/js/",
+            "css": "build/css/"
+        }
     }
 }
