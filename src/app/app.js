@@ -9,7 +9,7 @@
         'ui.bootstrap',
         'hc.marked',
         'templates-app'
-    ]); 
+    ]);
 
     // Handle routing errors and success events
     app.run(['$route', function ($route) {

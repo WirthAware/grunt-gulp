@@ -1,3 +1,10 @@
 <section id="dashboard-view" class="mainbar" data-ng-controller="grunt as vm">
-    Grunt
+     <div >
+        <carousel style="background-color: lightgray;">
+            <slide ng-repeat="slide in vm.slides" active="slide.active">
+                <div marked ng-include src="slide.markdown" style="margin:auto;">
+                </div>
+            </slide>
+        </carousel>
+    </div>
 </section>
