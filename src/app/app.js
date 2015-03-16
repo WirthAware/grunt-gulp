@@ -7,8 +7,9 @@
         'ngRoute',          // routing
         'ngSanitize',       // sanitizes html bindings (ex: sidebar.js)
         'ui.bootstrap',
-        'hc.marked'
-    ]);
+        'hc.marked',
+        'templates-app'
+    ]); 
 
     // Handle routing errors and success events
     app.run(['$route', function ($route) {
