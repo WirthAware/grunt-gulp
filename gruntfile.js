@@ -4,11 +4,11 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-sync');
     grunt.loadNpmTasks('grunt-html2js');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-newer');
 
     var taskConfig = {
 
@@ -98,9 +98,9 @@ module.exports = function(grunt) {
         },
 
         jshint: {
-        	options:{
-        		jshintrc: 'jshintrc.json'
-        	},
+            options: {
+                jshintrc: 'jshintrc.json'
+            },
             all: ['<%= config.paths.source.js %>']
         },
 
@@ -146,58 +146,23 @@ module.exports = function(grunt) {
             }
         },
 
-        sync: {
-            options: {
-                verbose: true // Display log messages when copying files 
-            },
-            js: {
-                files: [{
-                    src: ['<%= config.paths.source.js %>'],
-                    dest: '<%= config.paths.dest.debug %>/'
-                }],
-                verbose: true
-            },
-
-            css: {
-                files: [{
-                    src: ['<%= config.paths.source.css %>'],
-                    dest: '<%= config.paths.dest.debug %>/'
-                }],
-                verbose: true
-            },
-
-            md: {
-                files: [{
-                    src: ['<%= config.paths.source.md %>'],
-                    dest: '<%= config.paths.dest.debug %>/'
-                }],
-                verbose: true
-            }
-        },
-
         watch: {
             options: {
                 livereload: true,
             },
 
             js: {
-                files: ['<%= config.paths.source.js %>'],
-                tasks: ['jshint', 'sync:js']
+                files: [
+                    '<%= config.paths.source.js %>',
+                    '<%= config.paths.source.css %>',
+                    '<%= config.paths.source.md %>'
+                ],
+                tasks: ['newer:jshint:all', 'newer:copy:debug']
             },
 
             html: {
                 files: ['<%= config.paths.source.html %>'],
                 tasks: ['html2js']
-            },
-
-            css: {
-                files: ['<%= config.paths.source.css %>'],
-                tasks: ['sync:css']
-            },
-
-            md: {
-                files: ['<%= config.paths.source.md %>'],
-                tasks: ['sync:md']
             },
 
             index: {
