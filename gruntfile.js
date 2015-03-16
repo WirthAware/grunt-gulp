@@ -2,16 +2,27 @@ module.exports = function(grunt) {
 
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
-    grunt.loadNpmTasks('grunt-html2js');
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-sync');
     grunt.loadNpmTasks('grunt-html2js');
+    grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
 
     var taskConfig = {
 
         pkg: grunt.file.readJSON("package.json"),
         config: grunt.file.readJSON("config_grunt.json"),
+
+         meta: {
+            banner:
+                '/**\n' +
+                    ' * <%= pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>\n' +
+                    ' * <%= pkg.homepage %>\n' +
+                    ' *\n' +
+                    ' * Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author %>\n' +
+                    ' */\n'
+        },
 
         clean: {
             all: ['<%= config.paths.dest.base %>']
@@ -19,11 +30,8 @@ module.exports = function(grunt) {
 
         html2js: {
             app: {
-                // options: {
-                //     base: '<%= fontend_root %>/app'
-                // },
                 src: ['<%= config.paths.source.html %>'],
-                dest: '<%= config.paths.dest.base %>/src/app/templates-app.js'
+                dest: '<%= config.paths.dest.debug %>/src/app/templates-app.js'
             }
         },
 
@@ -31,7 +39,6 @@ module.exports = function(grunt) {
             debug: {
                 src: [
                     '<%= config.paths.source.js %>',
-                    // '<%= config.paths.source.html %>',
                     '<%= config.paths.source.css %>',
                     '<%= config.paths.source.vendor.js %>',
                     '<%= config.paths.source.vendor.css %>',
@@ -39,32 +46,73 @@ module.exports = function(grunt) {
                     '<%= config.paths.source.img %>',
                     '<%= config.paths.source.md %>',
                 ],
-                dest: '<%= config.paths.dest.base %>/',
+                dest: '<%= config.paths.dest.debug %>/',
                 cwd: '.',
                 expand: true
             },
             release: {
-                //TODO
+                files: [{
+                    src: ['<%= config.paths.source.vendor.assets %>'],
+                    dest: '<%= config.paths.dest.release %>/src/fonts/',
+                    expand:true,
+                    flatten: true
+                }, {
+                    src: ['<%= config.paths.source.img %>'],
+                    dest: '<%= config.paths.dest.release %>/',
+                    expand: true
+                }, {
+                    src: ['<%= config.paths.source.md %>'],
+                    dest: '<%= config.paths.dest.release %>/',
+                    expand: true
+                }]
+            }
+        },
+
+         concat: {
+            css: {
+                src: [
+                    '<%= config.paths.source.vendor.css %>',
+                    '<%= config.paths.source.css %>'
+                ],
+                dest: '<%= config.paths.dest.release %>/src/css/<%= pkg.name %>-<%= pkg.version %>.css'
+            },
+            js: {
+                src: [
+                    '<%= config.paths.source.vendor.js %>',
+                    '<%= config.paths.dest.debug %>/src/**/*.js',
+                    '<%= html2js.app.dest %>'
+                ],
+                dest: '<%= config.paths.dest.release %>/src/js/<%= pkg.name %>-<%= pkg.version %>.js'
+            }
+        },
+
+         uglify: {
+            release: {
+                options: {
+                    banner: '<%= meta.banner %>'
+                },
+                files: {
+                    '<%= concat.js.dest %>': '<%= concat.js.dest %>'
+                }
             }
         },
 
         index: {
             debug: {
-                dir: '<%= config.paths.dest.base %>',
+                dir: '<%= config.paths.dest.debug %>',
                 src: [
                     '<%= config.paths.source.vendor.js %>',
                     '<%= config.paths.source.vendor.css %>',
                     '<%= config.paths.source.vendor.assets %>',
-                    '<%= config.paths.dest.base %>/src/**/*.js',
-                    '<%= config.paths.dest.base %>/src/**/*.css'
+                    '<%= config.paths.dest.debug %>/src/**/*.js',
+                    '<%= config.paths.dest.debug %>/src/**/*.css'
                 ]
             },
-
             release: {
-                dir: '<%= compile_dir %>',
+                dir: '<%= config.paths.dest.release %>',
                 src: [
-                    '<%= concat.compile_js.dest %>',
-                    '<%= build_dir %>/assets/<%= pkg.name %>-<%= pkg.version %>.css'
+                    '<%= concat.js.dest %>',
+                    '<%= concat.css.dest %>'
                 ]
             }
         },
@@ -72,13 +120,21 @@ module.exports = function(grunt) {
         connect: {
             options: {
                 open: true,
-                livereload: true,
-                hostname: 'localhost',
+                hostname: 'localhost'
             },
-            app: {
+            debug: {
                 options: {
                     port: 9000,
-                    base: ['<%= config.paths.dest.base %>/src', '<%= config.paths.dest.base %>']
+                    livereload: true,
+                    base: ['<%= config.paths.dest.debug %>/src', '<%= config.paths.dest.debug %>']
+                }
+            },
+            release: {
+                options: {
+                    port: 9001,
+                    keepalive:true,
+                    livereload: false,
+                    base: ['<%= config.paths.dest.release %>/src', '<%= config.paths.dest.release %>']
                 }
             }
         },
@@ -90,17 +146,7 @@ module.exports = function(grunt) {
             js: {
                 files: [{
                     src: ['<%= config.paths.source.js %>'],
-                    dest: '<%= config.paths.dest.base %>/'
-                }],
-                verbose: true
-            },
-
-            html: {
-                files: [{
-                    src: [
-                        '<%= config.paths.source.html %>'
-                    ],
-                    dest: '<%= config.paths.dest.base %>/'
+                    dest: '<%= config.paths.dest.debug %>/'
                 }],
                 verbose: true
             },
@@ -108,7 +154,7 @@ module.exports = function(grunt) {
             css: {
                 files: [{
                     src: ['<%= config.paths.source.css %>'],
-                    dest: '<%= config.paths.dest.base %>/'
+                    dest: '<%= config.paths.dest.debug %>/'
                 }],
                 verbose: true
             },
@@ -116,7 +162,7 @@ module.exports = function(grunt) {
             md: {
                 files: [{
                     src: ['<%= config.paths.source.md %>'],
-                    dest: '<%= config.paths.dest.base %>/'
+                    dest: '<%= config.paths.dest.debug %>/'
                 }],
                 verbose: true
             }
@@ -156,17 +202,18 @@ module.exports = function(grunt) {
 
     grunt.initConfig(taskConfig);
 
-    grunt.registerTask('debug', [
-        'clean',
-        'html2js',
-        'copy:debug',
-        'index:debug',
-        'connect',
-        'watch'
-    ]);
+    grunt.registerTask('default', ['debug', 'release', 'serve']);
+
+    grunt.registerTask('debug', ['clean', 'html2js', 'copy:debug', 'index:debug']);
+
+    grunt.registerTask('release', ['copy:release', 'concat:css', 'concat:js', 'uglify', 'index:release']);
+
+    grunt.registerTask('serve', ['connect:debug', 'watch']);
 
     grunt.registerMultiTask('index', 'Process index.html template', function() {
-        var base = grunt.template.process('<%= config.paths.dest.base %>/');
+        var debug = grunt.template.process('<%= config.paths.dest.debug %>');
+        var release = grunt.template.process('<%= config.paths.dest.release %>');
+        var base = new RegExp('^(' + debug + '|' + release + ')\/', 'g');
 
         var jsFiles = filterForJS(this.filesSrc).map(function(file) {
             return file.replace(base, '');

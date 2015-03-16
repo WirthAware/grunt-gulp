@@ -47,8 +47,8 @@
         },
         "dest": {
             "base": "build",
-            "js": "build/js/",
-            "css": "build/css/"
+            "debug": "build/debug",
+            "release": "build/release"
         }
     }
 }
