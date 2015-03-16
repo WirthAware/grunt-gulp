@@ -6,23 +6,32 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-sync');
+    grunt.loadNpmTasks('grunt-html2js');
 
     var taskConfig = {
 
         pkg: grunt.file.readJSON("package.json"),
-        config: grunt.file.readJSON("config.json"),
+        config: grunt.file.readJSON("config_grunt.json"),
 
         clean: {
             all: ['<%= config.paths.dest.base %>']
+        },
+
+        html2js: {
+            app: {
+                // options: {
+                //     base: '<%= fontend_root %>/app'
+                // },
+                src: ['<%= config.paths.source.html %>'],
+                dest: '<%= config.paths.dest.base %>/src/app/templates-app.js'
+            }
         },
 
         copy: {
             debug: {
                 src: [
                     '<%= config.paths.source.js %>',
-                    '<%= config.paths.source.html %>',
-                    '!<%= config.paths.source.index %>',
-                    '!<%= config.paths.source.index_grunt %>',
+                    // '<%= config.paths.source.html %>',
                     '<%= config.paths.source.css %>',
                     '<%= config.paths.source.vendor.js %>',
                     '<%= config.paths.source.vendor.css %>',
@@ -89,9 +98,7 @@ module.exports = function(grunt) {
             html: {
                 files: [{
                     src: [
-                        '<%= config.paths.source.html %>',
-                        '!<%= config.paths.source.index %>',
-                        '!<%= config.paths.source.index_grunt %>'
+                        '<%= config.paths.source.html %>'
                     ],
                     dest: '<%= config.paths.dest.base %>/'
                 }],
@@ -127,7 +134,7 @@ module.exports = function(grunt) {
 
             html: {
                 files: ['<%= config.paths.source.html %>'],
-                tasks: ['sync:html']
+                tasks: ['html2js']
             },
 
             css: {
@@ -141,7 +148,7 @@ module.exports = function(grunt) {
             },
 
             index: {
-            	files: ['<%= config.paths.source.index_grunt %>'],
+                files: ['<%= config.paths.source.index_grunt %>'],
                 tasks: ['index:debug']
             }
         }
@@ -151,6 +158,7 @@ module.exports = function(grunt) {
 
     grunt.registerTask('debug', [
         'clean',
+        'html2js',
         'copy:debug',
         'index:debug',
         'connect',
