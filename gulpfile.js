@@ -72,7 +72,8 @@ gulp.task('jshint', function () {
 // html 2 js
 var viewTemplates = gulp.src('src/**/*.html')
         .pipe(templateCache('templates.js', {
-            module: 'app'
+            module: 'templates-app',
+            standalone: true
         }))
         .pipe(gulp.dest(config.paths.dest.base + '/app/templates/'));
 
@@ -88,7 +89,6 @@ gulp.task('scripts', function () {
   // It's not necessary to read the files (will speed up things), we're only after their paths:
 
   var bower = gulp.src(bowerFiles(), {read:false});
-  // var sources = gulp.src(['./src/**/*.js']).pipe(angularFilesort());
   var css = gulp.src(['./css/**/*.css'], { read: false });
   var templates = viewTemplates;
   var sources = eventStream.merge(jsFiles, templates).pipe(angularFilesort());
@@ -100,8 +100,8 @@ gulp.task('scripts', function () {
         sources,
         cssFiles
     )))
-    .pipe(gulp.dest('./'));
-
+    .pipe(gulp.dest('./'))
+    .pipe(connect.reload());
 });
 
 
@@ -123,8 +123,8 @@ gulp.task('js', function () {
     .pipe(connect.reload());
 });
 
-gulp.task('watch', function () {
-  gulp.watch(config.paths.source.html.concat( config.paths.source.js ), ['jshint', 'html', 'js']);
+gulp.task('watch', ['connect'], function () {
+  gulp.watch(config.paths.source.html.concat( config.paths.source.js ), ['jshint', 'scripts']);
 });
 
 gulp.task('default', ['connect', 'watch']);
