@@ -8,20 +8,20 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-html2js');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-jshint');
 
     var taskConfig = {
 
         pkg: grunt.file.readJSON("package.json"),
         config: grunt.file.readJSON("config_grunt.json"),
 
-         meta: {
-            banner:
-                '/**\n' +
-                    ' * <%= pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>\n' +
-                    ' * <%= pkg.homepage %>\n' +
-                    ' *\n' +
-                    ' * Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author %>\n' +
-                    ' */\n'
+        meta: {
+            banner: '/**\n' +
+                ' * <%= pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>\n' +
+                ' * <%= pkg.homepage %>\n' +
+                ' *\n' +
+                ' * Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author %>\n' +
+                ' */\n'
         },
 
         clean: {
@@ -54,7 +54,7 @@ module.exports = function(grunt) {
                 files: [{
                     src: ['<%= config.paths.source.vendor.assets %>'],
                     dest: '<%= config.paths.dest.release %>/src/fonts/',
-                    expand:true,
+                    expand: true,
                     flatten: true
                 }, {
                     src: ['<%= config.paths.source.img %>'],
@@ -68,7 +68,7 @@ module.exports = function(grunt) {
             }
         },
 
-         concat: {
+        concat: {
             css: {
                 src: [
                     '<%= config.paths.source.vendor.css %>',
@@ -86,7 +86,7 @@ module.exports = function(grunt) {
             }
         },
 
-         uglify: {
+        uglify: {
             release: {
                 options: {
                     banner: '<%= meta.banner %>'
@@ -95,6 +95,13 @@ module.exports = function(grunt) {
                     '<%= concat.js.dest %>': '<%= concat.js.dest %>'
                 }
             }
+        },
+
+        jshint: {
+        	options:{
+        		jshintrc: 'jshintrc.json'
+        	},
+            all: ['<%= config.paths.source.js %>']
         },
 
         index: {
@@ -132,7 +139,7 @@ module.exports = function(grunt) {
             release: {
                 options: {
                     port: 9001,
-                    keepalive:true,
+                    keepalive: true,
                     livereload: false,
                     base: ['<%= config.paths.dest.release %>/src', '<%= config.paths.dest.release %>']
                 }
@@ -175,7 +182,7 @@ module.exports = function(grunt) {
 
             js: {
                 files: ['<%= config.paths.source.js %>'],
-                tasks: ['sync:js']
+                tasks: ['jshint', 'sync:js']
             },
 
             html: {
@@ -204,7 +211,7 @@ module.exports = function(grunt) {
 
     grunt.registerTask('default', ['debug', 'release', 'serve']);
 
-    grunt.registerTask('debug', ['clean', 'html2js', 'copy:debug', 'index:debug']);
+    grunt.registerTask('debug', ['clean', 'jshint', 'html2js', 'copy:debug', 'index:debug']);
 
     grunt.registerTask('release', ['copy:release', 'concat:css', 'concat:js', 'uglify', 'index:release']);
 
