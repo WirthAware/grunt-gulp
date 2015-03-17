@@ -9,14 +9,10 @@
         vm.slides =
         [
             {
-                text: 'Eins',
-                image: 'http://placekitten.com/' + 601 + '/300',
-                markdown: 'src/app/gulp/slides/slide1.md'
+                image: '/img/grunt1.PNG'
             },
             {
-                text: 'Zwei',
-                image: 'http://placekitten.com/' + 602 + '/300',
-                markdown: 'src/app/gulp/slides/slide2.md'
+                image: '/img/grunt2.PNG'
             },
         ];
     }

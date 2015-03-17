@@ -1,8 +1,10 @@
-<section id="dashboard-view" class="mainbar" data-ng-controller="grunt as vm">
-     <div >
-        <carousel style="background-color: lightgray;">
+<section id="grunt-view" class="mainbar" data-ng-controller="grunt as vm">
+     <div>
+       <carousel disable-animation="true">
             <slide ng-repeat="slide in vm.slides" active="slide.active">
-                <div marked ng-include src="slide.markdown" style="margin:auto;">
+                <img ng-src="{{slide.image}}" style="margin:auto;">
+                <div class="carousel-caption">
+                    <h4>Slide {{$index + 1}}</h4>
                 </div>
             </slide>
         </carousel>
