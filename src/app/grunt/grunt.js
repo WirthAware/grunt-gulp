@@ -9,12 +9,10 @@
         vm.slides =
         [
             {
-                text: 'Ein',
-                image: 'img/AngularJS-small.png',
+                image: '/img/grunt1.PNG'
             },
             {
-                text: 'Zwei',
-                image: 'img/gg.png',
+                image: '/img/grunt2.PNG'
             },
         ];
     }
