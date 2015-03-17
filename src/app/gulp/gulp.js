@@ -10,11 +10,11 @@
         [
             {
                 text: 'Eins',
-                image: 'http://placekitten.com/' + 601 + '/300',
+                image: 'img/AngularJS-small.png',
             },
             {
                 text: 'Zwei',
-                image: 'http://placekitten.com/' + 602 + '/300',
+                image: 'img/gg.png',
             },
         ];
     }

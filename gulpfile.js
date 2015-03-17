@@ -1,6 +1,7 @@
 var pkg = require('./package');
 var config = require('./config');
 var gulp = require('gulp');
+var gutil = require('gulp-util');
 var connect = require('gulp-connect');
 var jshint = require('gulp-jshint');
 var stylish = require('jshint-stylish');
@@ -17,6 +18,7 @@ var runSequence = require('run-sequence');
 var browserSync = require('browser-sync');
 var reload      = browserSync.reload;
 
+console.log(gutil.env);
 
 // clean
 gulp.task('clean-index', function () {
@@ -27,40 +29,60 @@ gulp.task('clean-all', ['clean-index'], function(){
     return gulp.src([config.paths.dest.base])
         .pipe(clean({force: true}))
 });
+gulp.task('clean', function(){
+    return gulp.src([config.paths.dest.base])
+        .pipe(clean({force: true}))
+});
 
+// copy
+var jsFiles = function () {
+    gulp.src(config.paths.source.js)
+        .pipe(angularFilesort())
+        .pipe(gulp.dest(config.paths.dest.base));
+}
+
+var cssFiles = function () {
+    gulp.src(config.paths.source.css)
+     .pipe(gulp.dest(config.paths.dest.css));
+}
 
 // uglify
 // concat
-// copy
-var jsFiles = gulp.src(config.paths.source.js)
-        .pipe(angularFilesort())
-        .pipe(gulp.dest(config.paths.dest.base));
-
-gulp.task('bundlejs', ['jshint'], function () {
+var bundleJSFiles = function () {
     var bundlefile = pkg.name + ".min.js";
     var opt = {newLine: ';'};
     var jsStream = gulp.src(config.paths.source.js);
-    var templateStream = viewTemplates;
-    return eventStream.merge(jsStream, templateStream)
+
+    var templateStream = gulp.src('src/**/*.html')
+        .pipe(templateCache('templates.js', {
+            module: 'templates-app',
+            standalone: true
+        }));
+    var stream = eventStream.merge(jsStream, templateStream).pipe(angularFilesort());
+
+    return stream
         .pipe(size({showFiles: true}))
-        .pipe(uglify())
         .pipe(concat(bundlefile, opt))
+        .pipe(uglify())
         .pipe(gulp.dest(config.paths.dest.js))
         .pipe(size({showFiles: true}));
+};
+
+gulp.task('bundlejs', ['clean'], function () {
+    return bundleJSFiles();
 });
 
-var cssFiles = gulp.src(config.paths.source.css)
-    .pipe(gulp.dest(config.paths.dest.css));
-
-gulp.task('bundlecss', function () {
+var bundleCSSFiles = function () {
     return gulp.src(config.paths.source.css)
         .pipe(size({showFiles: true}))
         // .pipe(plug.minifyCss({}))
-        .pipe(concat(config.name + ".min.css"))
+        .pipe(concat(pkg.name + ".min.css"))
         .pipe(gulp.dest(config.paths.dest.css))
         .pipe(size({showFiles: true}));
+};
+gulp.task('bundlecss', ['clean'], function () {
+    return bundleCSSFiles();
 });
-
 
 
 // jshint
@@ -73,16 +95,17 @@ gulp.task('jshint', function () {
 
 
 // html 2 js
-var viewTemplates = gulp.src('src/**/*.html')
+var viewTemplates = function () {
+    gulp.src('src/**/*.html')
         .pipe(templateCache('templates.js', {
             module: 'templates-app',
             standalone: true
         }))
         .pipe(gulp.dest(config.paths.dest.base + '/app/templates/'));
-
+};
 gulp.task('ng-templates', function () {
   // create an angular templates.js file from html files in lib
-  return viewTemplates;
+  return viewTemplates();
 });
 
 
@@ -93,17 +116,30 @@ gulp.task('build:dev', function () {
 
   var bower = gulp.src(bowerFiles(), {read:false});
   var css = gulp.src(['./css/**/*.css'], { read: false });
-  var templates = viewTemplates;
-  var sources = eventStream.merge(jsFiles, templates).pipe(angularFilesort());
+  var templates = viewTemplates();
+  var sources = eventStream.merge(jsFiles(), templates).pipe(angularFilesort());
 
   return target
     .pipe(inject(bower, { name: 'bower' }))
 
     .pipe(inject(eventStream.merge(
         sources,
-        cssFiles
+        cssFiles()
     )))
     .pipe(gulp.dest('./'));
+});
+gulp.task('build', ['clean'], function () {
+    var target = gulp.src('./src/index.html');
+    var bower = gulp.src(bowerFiles(), {read:false});
+
+    return target
+      .pipe(inject(bower, { name: 'bower' }))
+
+      .pipe(inject(eventStream.merge(
+          bundleJSFiles(),
+          bundleCSSFiles()
+      )))
+      .pipe(gulp.dest('./'));
 });
 
 
@@ -114,28 +150,42 @@ gulp.task('connect', function() {
       livereload: true
   });
 });
+gulp.task('reload', function () {
+    gulp.src(config.paths.source.js)
+        .pipe(connect.reload());
+});
+gulp.task('connect:close', function () {
+    connect.serverClose();
+});
 
-gulp.task('html', function () {
-  gulp.src(config.paths.source.html)
-    .pipe(connect.reload());
+gulp.task('html', ['ng-templates'], function () {
+    return gulp.src(config.paths.source.html)
+        .pipe(connect.reload());
 });
 
 gulp.task('js', function () {
   gulp.src(config.paths.source.js)
-    .pipe(connect.reload());
+    .pipe(gulp.dest(config.paths.dest.base));
+});
+gulp.task('buildjs:dev', function () {
+    runSequence('js', 'reload');
 });
 
-gulp.task('watch', ['connect'], function () {
-  gulp.watch(config.paths.source.html.concat( config.paths.source.js ), ['jshint', 'scripts']);
+gulp.task('css', function () {
+  gulp.src(config.paths.source.css)
+    .pipe(gulp.dest(config.paths.dest.css));
+});
+gulp.task('buildcss:dev', function () {
+    runSequence('css', 'reload');
 });
 
+
+gulp.task('watch', function () {
+    gulp.watch(config.paths.source.js, ['jshint', 'buildjs:dev']);
+    gulp.watch(config.paths.source.css, ['jshint', 'buildcss:dev']);
+    // gulp.watch(config.paths.source.html, ['jshint', 'html']);
+});
+
+gulp.task('serve:dev', ['connect', 'watch']);
+gulp.task('serve:prod', ['build', 'connect']);
 gulp.task('default', ['connect', 'watch']);
-
-gulp.task('connect:close', function () {
-    connect.serverClose();
-})
-
-gulp.task('serve:dev', ['connect'], function () {
-    var files = config.paths.source.html.concat( config.paths.source.js );
-    return gulp.watch(files, ['jshint',]);
-});
