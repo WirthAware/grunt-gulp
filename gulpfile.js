@@ -15,8 +15,6 @@ var inject = require('gulp-inject');
 var angularFilesort = require('gulp-angular-filesort');
 var bowerFiles = require('main-bower-files');
 var runSequence = require('run-sequence');
-var browserSync = require('browser-sync');
-var reload      = browserSync.reload;
 
 console.log(gutil.env);
 
@@ -185,6 +183,6 @@ gulp.task('watch', function () {
     gulp.watch(config.paths.source.html, ['html']);
 });
 
-gulp.task('serve:dev', ['connect', 'watch']);
+gulp.task('serve:dev', ['build:dev', 'connect', 'watch']);
 gulp.task('serve:prod', ['build', 'connect']);
-gulp.task('default', ['connect', 'watch']);
+gulp.task('default', ['serve:dev']);
