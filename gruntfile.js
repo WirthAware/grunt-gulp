@@ -43,8 +43,7 @@ module.exports = function(grunt) {
                     '<%= config.paths.source.vendor.js %>',
                     '<%= config.paths.source.vendor.css %>',
                     '<%= config.paths.source.vendor.assets %>',
-                    '<%= config.paths.source.img %>',
-                    '<%= config.paths.source.md %>',
+                    '<%= config.paths.source.img %>'
                 ],
                 dest: '<%= config.paths.dest.debug %>/',
                 cwd: '.',
@@ -58,10 +57,6 @@ module.exports = function(grunt) {
                     flatten: true
                 }, {
                     src: ['<%= config.paths.source.img %>'],
-                    dest: '<%= config.paths.dest.release %>/',
-                    expand: true
-                }, {
-                    src: ['<%= config.paths.source.md %>'],
                     dest: '<%= config.paths.dest.release %>/',
                     expand: true
                 }]
@@ -153,11 +148,16 @@ module.exports = function(grunt) {
 
             js: {
                 files: [
-                    '<%= config.paths.source.js %>',
-                    '<%= config.paths.source.css %>',
-                    '<%= config.paths.source.md %>'
+                    '<%= config.paths.source.js %>'
                 ],
                 tasks: ['newer:jshint:all', 'newer:copy:debug']
+            },
+
+            css: {
+                files: [
+                    '<%= config.paths.source.css %>'
+                ],
+                tasks: ['newer:copy:debug']
             },
 
             html: {
