@@ -36,15 +36,15 @@ gulp.task('clean', function(){
 
 // copy
 var jsFiles = function () {
-    gulp.src(config.paths.source.js)
+    return gulp.src(config.paths.source.js)
         .pipe(angularFilesort())
         .pipe(gulp.dest(config.paths.dest.base));
-}
+};
 
 var cssFiles = function () {
-    gulp.src(config.paths.source.css)
+    return gulp.src(config.paths.source.css)
      .pipe(gulp.dest(config.paths.dest.css));
-}
+};
 
 // uglify
 // concat
@@ -96,7 +96,7 @@ gulp.task('jshint', function () {
 
 // html 2 js
 var viewTemplates = function () {
-    gulp.src('src/**/*.html')
+    return gulp.src('src/**/*.html')
         .pipe(templateCache('templates.js', {
             module: 'templates-app',
             standalone: true
@@ -110,12 +110,11 @@ gulp.task('ng-templates', function () {
 
 
 // html inject
-gulp.task('build:dev', function () {
+gulp.task('build:dev', ['clean'], function () {
   var target = gulp.src('./src/index.html');
   // It's not necessary to read the files (will speed up things), we're only after their paths:
 
   var bower = gulp.src(bowerFiles(), {read:false});
-  var css = gulp.src(['./css/**/*.css'], { read: false });
   var templates = viewTemplates();
   var sources = eventStream.merge(jsFiles(), templates).pipe(angularFilesort());
 
@@ -182,8 +181,8 @@ gulp.task('buildcss:dev', function () {
 
 gulp.task('watch', function () {
     gulp.watch(config.paths.source.js, ['jshint', 'buildjs:dev']);
-    gulp.watch(config.paths.source.css, ['jshint', 'buildcss:dev']);
-    // gulp.watch(config.paths.source.html, ['jshint', 'html']);
+    gulp.watch(config.paths.source.css, ['buildcss:dev']);
+    gulp.watch(config.paths.source.html, ['html']);
 });
 
 gulp.task('serve:dev', ['connect', 'watch']);
