@@ -30,9 +30,9 @@
                     "bower_components/marked/lib/marked.js"
                 ],
                 "css": [
-                    "bower_components/bootstrap/dist/css/bootstrap.css",
-                    "bower_components/bootstrap/dist/css/bootstrap-theme.css",
-                    "bower_components/font-awesome/css/font-awesome.css"
+                    "bower_components/bootstrap/dist/css/bootstrap.min.css",
+                    "bower_components/bootstrap/dist/css/bootstrap-theme.min.css",
+                    "bower_components/font-awesome/css/font-awesome.min.css"
                 ],
                 "assets": [
                     "bower_components/bootstrap/dist/fonts/**/*",
