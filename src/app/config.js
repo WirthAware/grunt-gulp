@@ -6,7 +6,7 @@
     var config = {};
     app.value('config', config);
 
-    app.config(['markedProvider', function (markedProvider) {
-        markedProvider.setOptions({gfm: true});
+    app.config([function () {
+
     }]);
 })();

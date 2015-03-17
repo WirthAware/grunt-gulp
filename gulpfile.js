@@ -13,6 +13,9 @@ var eventStream = require('event-stream');
 var inject = require('gulp-inject');
 var angularFilesort = require('gulp-angular-filesort');
 var bowerFiles = require('main-bower-files');
+var runSequence = require('run-sequence');
+var browserSync = require('browser-sync');
+var reload      = browserSync.reload;
 
 
 // clean
@@ -84,7 +87,7 @@ gulp.task('ng-templates', function () {
 
 
 // html inject
-gulp.task('scripts', function () {
+gulp.task('build:dev', function () {
   var target = gulp.src('./src/index.html');
   // It's not necessary to read the files (will speed up things), we're only after their paths:
 
@@ -100,8 +103,7 @@ gulp.task('scripts', function () {
         sources,
         cssFiles
     )))
-    .pipe(gulp.dest('./'))
-    .pipe(connect.reload());
+    .pipe(gulp.dest('./'));
 });
 
 
@@ -128,3 +130,12 @@ gulp.task('watch', ['connect'], function () {
 });
 
 gulp.task('default', ['connect', 'watch']);
+
+gulp.task('connect:close', function () {
+    connect.serverClose();
+})
+
+gulp.task('serve:dev', ['connect'], function () {
+    var files = config.paths.source.html.concat( config.paths.source.js );
+    return gulp.watch(files, ['jshint',]);
+});

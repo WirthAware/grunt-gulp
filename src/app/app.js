@@ -7,7 +7,6 @@
         'ngRoute',          // routing
         'ngSanitize',       // sanitizes html bindings (ex: sidebar.js)
         'ui.bootstrap',
-        'hc.marked',
         'templates-app'
     ]);
 
