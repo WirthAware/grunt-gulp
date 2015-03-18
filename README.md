@@ -17,7 +17,3 @@ Playground to demo Gulp vs Grunt
 * jshint
 * uglify
 * watch with livereload
-
-### TODO
-+ connect => dest (serve:dev; serve:release)
-+ html-header
