@@ -48,7 +48,6 @@ gulp.task('clean', function(){
 */
 var jsFiles = function () {
     return gulp.src(config.paths.source.js)
-        .pipe(angularFilesort())
         .pipe(gulp.dest(config.paths.dest.base));
 };
 
@@ -187,24 +186,26 @@ gulp.task('html', ['ng-templates'], function () {
 
 gulp.task('js', function () {
   gulp.src(config.paths.source.js)
-    .pipe(gulp.dest(config.paths.dest.base));
+    .pipe(gulp.dest(config.paths.dest.base))
+    .pipe(connect.reload());
 });
-gulp.task('buildjs:dev', function () {
-    runSequence('js', 'reload');
-});
+// gulp.task('buildjs:dev', function () {
+//     runSequence('js', 'reload');
+// });
 
 gulp.task('css', function () {
   gulp.src(config.paths.source.css)
-    .pipe(gulp.dest(config.paths.dest.css));
+    .pipe(gulp.dest(config.paths.dest.css))
+    .pipe(connect.reload());
 });
-gulp.task('buildcss:dev', function () {
-    runSequence('css', 'reload');
-});
+// gulp.task('buildcss:dev', function () {
+//     runSequence('css', 'reload');
+// });
 
 
 gulp.task('watch', function () {
-    gulp.watch(config.paths.source.js, ['jshint', 'buildjs:dev']);
-    gulp.watch(config.paths.source.css, ['buildcss:dev']);
+    gulp.watch(config.paths.source.js, ['jshint', 'js']);
+    gulp.watch(config.paths.source.css, ['css']);
     gulp.watch(config.paths.source.html, ['html']);
 });
 
