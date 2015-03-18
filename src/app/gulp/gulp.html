@@ -1,11 +1,3 @@
 <section id="dashboard-view" class="mainbar" data-ng-controller="gulp as vm">
-    <div >
-        <carousel disable-animation="true">
-            <slide ng-repeat="slide in vm.slides" active="slide.active">
-                <img ng-src="{{slide.image}}" style="margin:auto;">
-                <div class="carousel-caption">
-                </div>
-            </slide>
-        </carousel>
-    </div>
+    <gg-carousel data-slides="vm.slides"></gg-carousel>
 </section>

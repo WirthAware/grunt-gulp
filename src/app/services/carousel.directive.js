@@ -19,7 +19,8 @@
         return {
             restrict: 'E',
             template: template,
-            sciope: {
+            replace: true,
+            scope: {
                 slides: '='
             }
         };
