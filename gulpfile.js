@@ -18,6 +18,13 @@ var runSequence = require('run-sequence');
 var notify = require("gulp-notify");
 
 
+/*
+ * Auto load all gulp plugins
+ */
+var gulpLoadPlugins = require("gulp-load-plugins");
+var plug = gulpLoadPlugins();
+
+
 console.log(gutil.env);
 
 /*
@@ -80,7 +87,7 @@ gulp.task('bundlejs', ['clean'], function () {
 var bundleCSSFiles = function () {
     return gulp.src(config.paths.source.css)
         .pipe(size({showFiles: true}))
-        // .pipe(plug.minifyCss({}))
+        .pipe(plug.minifyCss({ keepBreaks:true }))
         .pipe(concat(pkg.name + ".min.css"))
         .pipe(gulp.dest(config.paths.dest.css))
         .pipe(size({showFiles: true}));
@@ -132,10 +139,10 @@ gulp.task('build:dev', ['clean'], function () {
     )))
     .pipe(gulp.dest('./'))
     // Notify we are done
-      .pipe(notify({
-          onLast: true,
-          message: "cleaned, html2js, linted, bundled, and css compressed!"
-      }));
+    .pipe(notify({
+      onLast: true,
+      message: "cleaned, html2js, linted, bundled, and css compressed!"
+    }));
 });
 gulp.task('build', ['clean'], function () {
     var target = gulp.src('./src/index.html');
