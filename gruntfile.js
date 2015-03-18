@@ -128,7 +128,7 @@ module.exports = function(grunt) {
                 options: {
                     port: 9000,
                     livereload: true,
-                    base: ['<%= config.paths.dest.debug %>/src', '<%= config.paths.dest.debug %>']
+                    base: '<%= config.paths.dest.debug %>'
                 }
             },
             release: {
@@ -136,7 +136,7 @@ module.exports = function(grunt) {
                     port: 9001,
                     keepalive: true,
                     livereload: false,
-                    base: ['<%= config.paths.dest.release %>/src', '<%= config.paths.dest.release %>']
+                    base: '<%= config.paths.dest.release %>'
                 }
             }
         },
