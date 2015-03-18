@@ -23,10 +23,10 @@
                 url: '/',
                 config: {
                     templateUrl: 'app/dashboard/dashboard.html',
-                    title: 'dashboard',
+                    title: 'Intro',
                     settings: {
                         nav: 1,
-                        content: '<i class="fa fa-dashboard"></i> Dashboard'
+                        content: '<i class="glyphicon glyphicon-exclamation-sign"></i> Intro'
                     }
                 }
             },
