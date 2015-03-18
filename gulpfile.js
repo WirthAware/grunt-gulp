@@ -189,18 +189,12 @@ gulp.task('js', function () {
     .pipe(gulp.dest(config.paths.dest.base))
     .pipe(connect.reload());
 });
-// gulp.task('buildjs:dev', function () {
-//     runSequence('js', 'reload');
-// });
 
 gulp.task('css', function () {
   gulp.src(config.paths.source.css)
     .pipe(gulp.dest(config.paths.dest.css))
     .pipe(connect.reload());
 });
-// gulp.task('buildcss:dev', function () {
-//     runSequence('css', 'reload');
-// });
 
 
 gulp.task('watch', function () {
