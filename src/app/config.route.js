@@ -37,7 +37,7 @@
                     templateUrl: 'app/gulp/gulp.html',
                     settings: {
                         nav: 3,
-                        content: '<i class="fa fa-lock"></i> Gulp'
+                        content: '<i class="fa fa-angellist"></i> Gulp'
                     }
                 }
             },
@@ -48,7 +48,7 @@
                     templateUrl: 'app/grunt/grunt.html',
                     settings: {
                         nav: 2,
-                        content: '<i class="fa fa-lock"></i> Grunt'
+                        content: '<i class="fa fa-github-alt"></i> Grunt'
                     }
                 }
             },

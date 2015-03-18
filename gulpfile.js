@@ -15,10 +15,14 @@ var inject = require('gulp-inject');
 var angularFilesort = require('gulp-angular-filesort');
 var bowerFiles = require('main-bower-files');
 var runSequence = require('run-sequence');
+var notify = require("gulp-notify");
+
 
 console.log(gutil.env);
 
-// clean
+/*
+clean
+*/
 gulp.task('clean-index', function () {
         return gulp.src('index.html')
         pipe(clean({force: true}));
@@ -32,7 +36,9 @@ gulp.task('clean', function(){
         .pipe(clean({force: true}))
 });
 
+/*
 // copy
+*/
 var jsFiles = function () {
     return gulp.src(config.paths.source.js)
         .pipe(angularFilesort())
@@ -43,6 +49,7 @@ var cssFiles = function () {
     return gulp.src(config.paths.source.css)
      .pipe(gulp.dest(config.paths.dest.css));
 };
+
 
 // uglify
 // concat
@@ -123,7 +130,12 @@ gulp.task('build:dev', ['clean'], function () {
         sources,
         cssFiles()
     )))
-    .pipe(gulp.dest('./'));
+    .pipe(gulp.dest('./'))
+    // Notify we are done
+      .pipe(notify({
+          onLast: true,
+          message: "cleaned, html2js, linted, bundled, and css compressed!"
+      }));
 });
 gulp.task('build', ['clean'], function () {
     var target = gulp.src('./src/index.html');
@@ -136,7 +148,13 @@ gulp.task('build', ['clean'], function () {
           bundleJSFiles(),
           bundleCSSFiles()
       )))
-      .pipe(gulp.dest('./'));
+      .pipe(gulp.dest('./'))
+
+      // Notify we are done
+        .pipe(notify({
+            onLast: true,
+            message: "cleaned, html2js, linted, bundled, and css compressed!"
+        }));
 });
 
 
