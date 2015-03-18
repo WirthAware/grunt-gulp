@@ -36,7 +36,7 @@
                     title: 'Gulp',
                     templateUrl: 'app/gulp/gulp.html',
                     settings: {
-                        nav: 2,
+                        nav: 3,
                         content: '<i class="fa fa-lock"></i> Gulp'
                     }
                 }
