@@ -14,6 +14,9 @@
             {
                 image: '/img/grunt2.PNG'
             },
+            {
+                image: '/img/grunt3.PNG'
+            }
         ];
     }
 })();

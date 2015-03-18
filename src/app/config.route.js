@@ -51,6 +51,17 @@
                         content: '<i class="fa fa-lock"></i> Grunt'
                     }
                 }
+            },
+             {
+                url: '/conclusion',
+                config: {
+                    title: 'Conclusion',
+                    templateUrl: 'app/conclusion/conclusion.html',
+                    settings: {
+                        nav: 4,
+                        content: '<i class="glyphicon glyphicon-check"></i> Conclusion'
+                    }
+                }
             }
         ];
     }
